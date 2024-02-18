@@ -10,10 +10,15 @@ config_version=5
 
 [application]
 
-config/name="Project-b"
-config/features=PackedStringArray("4.1", "Forward Plus")
+config/name="Project-B"
+run/main_scene="res://Scenes/Main.tscn"
+config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [dotnet]
 
 project/assembly_name="Project-b"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://wuxc2bavhl24"]
+
+[ext_resource type="PackedScene" uid="uid://bootae2iltwc5" path="res://Characters/Doux.tscn" id="1_f483p"]
+[ext_resource type="PackedScene" uid="uid://b0hekj2dy1kl1" path="res://Scenes/Platforms.tscn" id="2_84jgh"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Doux" parent="." instance=ExtResource("1_f483p")]
+position = Vector2(12, -2)
+
+[node name="Platforms" parent="." instance=ExtResource("2_84jgh")]
