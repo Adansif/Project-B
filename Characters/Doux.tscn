@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://bootae2iltwc5"]
+[gd_scene load_steps=13 format=3 uid="uid://bootae2iltwc5"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_47k5n"]
 [ext_resource type="Texture2D" uid="uid://brg2aprfhq5yr" path="res://Sprites/Characters/Doux.png" id="1_hp1pt"]
+[ext_resource type="AudioStream" uid="uid://dis0l3nap2nmc" path="res://Sounds/Jump.wav" id="3_23eel"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_112ta"]
+size = Vector2(15, 17)
 
 [sub_resource type="Animation" id="Animation_s7335"]
 resource_name = "Hit"
@@ -125,6 +127,7 @@ _data = {
 script = ExtResource("1_47k5n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0.5)
 shape = SubResource("RectangleShape2D_112ta")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -138,3 +141,7 @@ libraries = {
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.5, 2.5)
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_23eel")
+bus = &"Effects"
