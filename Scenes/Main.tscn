@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://wuxc2bavhl24"]
+[gd_scene load_steps=4 format=3 uid="uid://wuxc2bavhl24"]
 
 [ext_resource type="PackedScene" uid="uid://bootae2iltwc5" path="res://Characters/Doux.tscn" id="1_f483p"]
 [ext_resource type="PackedScene" uid="uid://b0hekj2dy1kl1" path="res://Scenes/Platforms.tscn" id="2_84jgh"]
+[ext_resource type="PackedScene" uid="uid://btwlde6swsve3" path="res://Scenes/Background.tscn" id="3_6cekb"]
 
 [node name="Main" type="Node2D"]
 
@@ -9,3 +10,5 @@
 position = Vector2(12, -2)
 
 [node name="Platforms" parent="." instance=ExtResource("2_84jgh")]
+
+[node name="Background" parent="." instance=ExtResource("3_6cekb")]
