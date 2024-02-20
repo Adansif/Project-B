@@ -3,9 +3,9 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	public const float NormalSpeed = 70.0f;
-	public const float JumpVelocity = -200.0f;
-	private const float CrouchSpeed = 20.0f;
+	public const float NormalSpeed = 100.0f;
+	public const float JumpVelocity = -300.0f;
+	private const float CrouchSpeed = 40.0f;
 	private String currentAnimation = "Idle";
 	private Boolean isCrouching = false;
 
@@ -35,7 +35,7 @@ public partial class Player : CharacterBody2D
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+		Vector2 direction = Input.GetVector("Left", "Right", "ui_up", "ui_down");
 		if (direction != Vector2.Zero)
 		{
 			velocity.X = isCrouching? direction.X * CrouchSpeed : direction.X * NormalSpeed;
