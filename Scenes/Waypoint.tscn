@@ -1,0 +1,95 @@
+[gd_scene load_steps=9 format=3 uid="uid://c2n14unjuy07o"]
+
+[ext_resource type="Script" path="res://Scripts/Waypoint.cs" id="1_jtvtc"]
+[ext_resource type="Texture2D" uid="uid://ce87roqhl3pgi" path="res://Sprites/Misc/Waypoint.png" id="1_nvvjo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ak1hf"]
+size = Vector2(9, 46)
+
+[sub_resource type="Animation" id="Animation_r26lt"]
+resource_name = "Raising"
+length = 1.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 1.05, 1.1, 1.15, 1.2, 1.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+}
+
+[sub_resource type="Animation" id="Animation_ihfgu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_q2tkt"]
+resource_name = "Waving"
+length = 0.45
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [27, 28, 29, 30, 31, 32, 33, 34, 35, 36]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7bubl"]
+_data = {
+"RESET": SubResource("Animation_ihfgu"),
+"Raising": SubResource("Animation_r26lt"),
+"Waving": SubResource("Animation_q2tkt")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s2ob5"]
+size = Vector2(9, 46)
+
+[node name="Waypoint" type="StaticBody2D"]
+collision_layer = 2
+script = ExtResource("1_jtvtc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_nvvjo")
+hframes = 13
+vframes = 3
+frame = 1
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(-8.5, 9)
+shape = SubResource("RectangleShape2D_ak1hf")
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7bubl")
+}
+
+[node name="WaypointArea" type="Area2D" parent="." groups=["enemy"]]
+collision_layer = 2
+
+[node name="WaypointAreaCollision" type="CollisionShape2D" parent="WaypointArea"]
+position = Vector2(-8.5, 9)
+shape = SubResource("RectangleShape2D_s2ob5")
+
+[connection signal="body_entered" from="WaypointArea" to="." method="_on_waypoint_area_body_entered"]

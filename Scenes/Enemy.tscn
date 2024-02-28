@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://4j7hrunfnr4c"]
 
-[ext_resource type="Script" path="res://Scenes/Enemy.cs" id="1_sqf15"]
+[ext_resource type="Script" path="res://Scripts/Enemy.cs" id="1_edfxn"]
 [ext_resource type="Texture2D" uid="uid://butg4n8di7eq3" path="res://Sprites/Enemies/Pillar.png" id="2_iiwer"]
 
 [sub_resource type="Animation" id="Animation_gi4rd"]
@@ -45,7 +45,7 @@ size = Vector2(37, 37)
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 2
-script = ExtResource("1_sqf15")
+script = ExtResource("1_edfxn")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_iiwer")

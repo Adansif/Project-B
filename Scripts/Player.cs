@@ -90,7 +90,15 @@ public partial class Player : CharacterBody2D
 
 	public void _on_player_area_body_entered(Node body)
 	{
+		if (body is Waypoint){
+			StaticBody2D waypoint = (StaticBody2D)body;
+			RespawnCoords = waypoint.GlobalPosition;
+			GD.Print(RespawnCoords);
+		}
+		
 		if (!(body is Enemy)) return;
+
+
 		die();
 
 	}
