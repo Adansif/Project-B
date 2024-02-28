@@ -144,7 +144,6 @@ stream = ExtResource("3_23eel")
 bus = &"Effects"
 
 [node name="PlayerArea" type="Area2D" parent="."]
-collision_layer = 0
 collision_mask = 2
 
 [node name="AreaCollision" type="CollisionShape2D" parent="PlayerArea"]

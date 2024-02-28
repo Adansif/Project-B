@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0hekj2dy1kl1"]
+[gd_scene load_steps=8 format=3 uid="uid://b0hekj2dy1kl1"]
 
 [ext_resource type="Texture2D" uid="uid://bc1ndvc74j3qe" path="res://Sprites/Terrain (16x16).png" id="1_q8q3w"]
 [ext_resource type="Texture2D" uid="uid://pb2wu1et6t8a" path="res://Sprites/Misc/Arrow.png" id="2_62eio"]
@@ -459,6 +459,9 @@ texture = ExtResource("1_q8q3w")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_wtmpn")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fxcpt"]
+size = Vector2(45.75, 100)
+
 [node name="Tutorial" type="TileMap"]
 tile_set = SubResource("TileSet_g6hlw")
 format = 2
@@ -479,7 +482,7 @@ scale = Vector2(0.35374, 0.246297)
 texture = ExtResource("2_62eio")
 
 [node name="Doux" parent="." instance=ExtResource("3_vv2em")]
-position = Vector2(48, -6)
+position = Vector2(2259, -165)
 
 [node name="Texts" type="Node" parent="."]
 
@@ -558,3 +561,10 @@ text = "A ver si sobrevives a esto..."
 
 [node name="Waypoint" parent="Waypoints" instance=ExtResource("3_kyutu")]
 position = Vector2(1091, -31)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(2358, -145)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_fxcpt")

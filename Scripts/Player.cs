@@ -3,21 +3,24 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	public const float NormalSpeed = 100.0f;
-	public const float JumpVelocity = -300.0f;
-	private const float CrouchSpeed = 40.0f;
-	private String CurrentAnimation = "Idle";
+	public const float normalSpeed = 100.0f;
+	public const float jumpVelocity = -300.0f;
+	private const float crouchSpeed = 40.0f;
+	private String currentAnimation = "Idle";
+	private String fatherName;
 
 	private bool IsDead {get; set;} = false;
 	private bool IsWaypointActivated {get; set;} = false;
-	private bool IsCrouching = false;
+	private bool isChangingScreen = false;
+	private bool isCrouching = false;
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-	Vector2 RespawnCoords;
+	Vector2 respawnCoords;
 	AnimationPlayer animation;
 	AudioStreamPlayer2D jump;
 	Sprite2D sprite;
 	Camera2D camera;
+	Node main;
 
     public override void _Ready()
     {
@@ -26,8 +29,12 @@ public partial class Player : CharacterBody2D
 		sprite = GetNode<Sprite2D>("./CharacterSprite");
 		camera = GetNode<Camera2D>("./Camera2D");
 		camera.PositionSmoothingEnabled = true;
-		RespawnCoords = this.GlobalPosition;
-		GD.Print(RespawnCoords);
+		respawnCoords = this.GlobalPosition;
+		fatherName = GetParent().Name;
+		main = GetParent().GetParent();
+		GD.Print(fatherName);
+		GD.Print(main.Name);
+
     }
 
     public override async void _PhysicsProcess(double delta)
@@ -36,7 +43,7 @@ public partial class Player : CharacterBody2D
 
 		if (IsDead){
 			await ToSignal(animation, "animation_finished");
-			this.GlobalPosition = RespawnCoords;
+			this.GlobalPosition = respawnCoords;
 			IsDead = false;
 		}
 
@@ -45,7 +52,7 @@ public partial class Player : CharacterBody2D
 		}
 
 		if(this.GlobalPosition.Y >= 237){
-			this.GlobalPosition = RespawnCoords;
+			this.GlobalPosition = respawnCoords;
 		}
 
 		// Add the gravity.
@@ -55,21 +62,21 @@ public partial class Player : CharacterBody2D
 
 		// Handle Jump.
 		if (Input.IsActionJustPressed("Jump") && IsOnFloor()){
-			velocity.Y = JumpVelocity;
+			velocity.Y = jumpVelocity;
 			jump.Play();
 		}
 
-		IsCrouching = Input.IsActionPressed("Crouch");
+		isCrouching = Input.IsActionPressed("Crouch");
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 direction = Input.GetVector("Left", "Right", "ui_up", "ui_down");
 		if (direction != Vector2.Zero)
 		{
-			velocity.X = IsCrouching? direction.X * CrouchSpeed : direction.X * NormalSpeed;
+			velocity.X = isCrouching? direction.X * crouchSpeed : direction.X * normalSpeed;
 			if (Mathf.Abs(direction.X) > Mathf.Abs(direction.Y))
             {
-                CurrentAnimation = IsCrouching? "WalkCrouch" : "Walk";
+                currentAnimation = isCrouching? "WalkCrouch" : "Walk";
 				if(direction.X < 0 ){
 					sprite.FlipH = true;
 				}else{
@@ -79,25 +86,29 @@ public partial class Player : CharacterBody2D
 		}
 		else
 		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, NormalSpeed);
-			CurrentAnimation = IsCrouching? "IdleCrouch" : "Idle";
+			velocity.X = Mathf.MoveToward(Velocity.X, 0, normalSpeed);
+			currentAnimation = isCrouching? "IdleCrouch" : "Idle";
 		}
 
 		Velocity = velocity;
 		MoveAndSlide();
-		animation.Play(CurrentAnimation);
+		animation.Play(currentAnimation);
 	}
 
 	public void _on_player_area_body_entered(Node body)
 	{
 		if (body is Waypoint){
 			StaticBody2D waypoint = (StaticBody2D)body;
-			RespawnCoords = waypoint.GlobalPosition;
-			GD.Print(RespawnCoords);
+			respawnCoords = waypoint.GlobalPosition;
+			GD.Print(respawnCoords);
+		}
+
+		if(isChangingScreen == false){
+			main.AddChild(GD.Load<PackedScene>("res://Scenes/FadingAnimation.tscn").Instantiate());
+			isChangingScreen = true;
 		}
 		
 		if (!(body is Enemy)) return;
-
 
 		die();
 
