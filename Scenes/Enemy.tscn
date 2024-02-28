@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://4j7hrunfnr4c"]
+[gd_scene load_steps=7 format=3 uid="uid://4j7hrunfnr4c"]
 
 [ext_resource type="Script" path="res://Scenes/Enemy.cs" id="1_sqf15"]
 [ext_resource type="Texture2D" uid="uid://butg4n8di7eq3" path="res://Sprites/Enemies/Pillar.png" id="2_iiwer"]
@@ -40,7 +40,11 @@ _data = {
 "RESET": SubResource("Animation_hb1ft")
 }
 
-[node name="Enemy" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_htqwu"]
+size = Vector2(37, 37)
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 2
 script = ExtResource("1_sqf15")
 
 [node name="Sprite" type="Sprite2D" parent="."]
@@ -52,3 +56,13 @@ frame = 3
 libraries = {
 "": SubResource("AnimationLibrary_077vh")
 }
+
+[node name="EnemyCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_htqwu")
+
+[node name="EnemyArea" type="Area2D" parent="." groups=["enemy"]]
+
+[node name="EnemyAreaCollision" type="CollisionShape2D" parent="EnemyArea"]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_htqwu")

@@ -123,6 +123,7 @@ _data = {
 script = ExtResource("1_47k5n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-0.5, 0.5)
 shape = SubResource("RectangleShape2D_112ta")
 
@@ -141,3 +142,13 @@ zoom = Vector2(2.5, 2.5)
 [node name="Jump" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_23eel")
 bus = &"Effects"
+
+[node name="PlayerArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="AreaCollision" type="CollisionShape2D" parent="PlayerArea"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_112ta")
+
+[connection signal="body_entered" from="PlayerArea" to="." method="_on_player_area_body_entered"]
