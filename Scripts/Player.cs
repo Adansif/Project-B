@@ -9,21 +9,43 @@ public partial class Player : CharacterBody2D
 	private String CurrentAnimation = "Idle";
 
 	private bool IsDead {get; set;} = false;
-	private Boolean IsCrouching = false;
+	private bool IsWaypointActivated {get; set;} = false;
+	private bool IsCrouching = false;
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+	Vector2 RespawnCoords;
 	AnimationPlayer animation;
+	AudioStreamPlayer2D jump;
+	Sprite2D sprite;
+	Camera2D camera;
 
-	public override async void _PhysicsProcess(double delta)
+    public override void _Ready()
+    {
+		jump = GetNode<AudioStreamPlayer2D>("./Jump");
+		animation = GetNode<AnimationPlayer>("./CharacterAnimation");
+		sprite = GetNode<Sprite2D>("./CharacterSprite");
+		camera = GetNode<Camera2D>("./Camera2D");
+		camera.PositionSmoothingEnabled = true;
+		RespawnCoords = this.GlobalPosition;
+		GD.Print(RespawnCoords);
+    }
+
+    public override async void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
-		AudioStreamPlayer2D jump = GetNode<AudioStreamPlayer2D>("./Jump");
-		animation = GetNode<AnimationPlayer>("./CharacterAnimation");
-		Sprite2D sprite = GetNode<Sprite2D>("./CharacterSprite");
 
 		if (IsDead){
 			await ToSignal(animation, "animation_finished");
+			this.GlobalPosition = RespawnCoords;
 			IsDead = false;
+		}
+
+		if(this.GlobalPosition.Y >= 30){
+			camera.LimitBottom = 150;
+		}
+
+		if(this.GlobalPosition.Y >= 237){
+			this.GlobalPosition = RespawnCoords;
 		}
 
 		// Add the gravity.
@@ -35,7 +57,6 @@ public partial class Player : CharacterBody2D
 		if (Input.IsActionJustPressed("Jump") && IsOnFloor()){
 			velocity.Y = JumpVelocity;
 			jump.Play();
-			GD.Print("Salto");
 		}
 
 		IsCrouching = Input.IsActionPressed("Crouch");
@@ -69,13 +90,20 @@ public partial class Player : CharacterBody2D
 
 	public void _on_player_area_body_entered(Node body)
 	{
+		if (body is Waypoint){
+			StaticBody2D waypoint = (StaticBody2D)body;
+			RespawnCoords = waypoint.GlobalPosition;
+			GD.Print(RespawnCoords);
+		}
+		
 		if (!(body is Enemy)) return;
+
+
 		die();
 
 	}
 
-	private async void die(){
-		GD.Print("El jugador ha muerto");
+	private void die(){
 		IsDead = true;
 		animation.Play("Hit");
 

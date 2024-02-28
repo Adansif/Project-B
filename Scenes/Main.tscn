@@ -1,14 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://wuxc2bavhl24"]
+[gd_scene load_steps=6 format=3 uid="uid://wuxc2bavhl24"]
 
 [ext_resource type="PackedScene" uid="uid://bootae2iltwc5" path="res://Characters/Doux.tscn" id="1_f483p"]
 [ext_resource type="PackedScene" uid="uid://b0hekj2dy1kl1" path="res://Scenes/Tutorial.tscn" id="2_0w501"]
 [ext_resource type="PackedScene" uid="uid://btwlde6swsve3" path="res://Scenes/Background.tscn" id="3_6cekb"]
 [ext_resource type="PackedScene" uid="uid://4j7hrunfnr4c" path="res://Scenes/Enemy.tscn" id="4_20374"]
+[ext_resource type="PackedScene" uid="uid://c2n14unjuy07o" path="res://Scenes/Waypoint.tscn" id="5_andcm"]
 
 [node name="Main" type="Node2D"]
 
 [node name="Doux" parent="." instance=ExtResource("1_f483p")]
-position = Vector2(34, 6)
+position = Vector2(37, -31)
 
 [node name="Tutorial" parent="." instance=ExtResource("2_0w501")]
 
@@ -16,3 +17,6 @@ position = Vector2(34, 6)
 
 [node name="Enemy" parent="." instance=ExtResource("4_20374")]
 position = Vector2(214, -24)
+
+[node name="Waypoint" parent="." instance=ExtResource("5_andcm")]
+position = Vector2(336, -16)
