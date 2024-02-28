@@ -17,13 +17,17 @@ public partial class Player : CharacterBody2D
 	AnimationPlayer animation;
 	AudioStreamPlayer2D jump;
 	Sprite2D sprite;
+	Camera2D camera;
 
     public override void _Ready()
     {
 		jump = GetNode<AudioStreamPlayer2D>("./Jump");
 		animation = GetNode<AnimationPlayer>("./CharacterAnimation");
 		sprite = GetNode<Sprite2D>("./CharacterSprite");
+		camera = GetNode<Camera2D>("./Camera2D");
+		camera.PositionSmoothingEnabled = true;
 		RespawnCoords = this.GlobalPosition;
+		GD.Print(RespawnCoords);
     }
 
     public override async void _PhysicsProcess(double delta)
@@ -34,6 +38,14 @@ public partial class Player : CharacterBody2D
 			await ToSignal(animation, "animation_finished");
 			this.GlobalPosition = RespawnCoords;
 			IsDead = false;
+		}
+
+		if(this.GlobalPosition.Y >= 30){
+			camera.LimitBottom = 150;
+		}
+
+		if(this.GlobalPosition.Y >= 237){
+			this.GlobalPosition = RespawnCoords;
 		}
 
 		// Add the gravity.

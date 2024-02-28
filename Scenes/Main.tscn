@@ -8,7 +8,7 @@
 [node name="Main" type="Node2D"]
 
 [node name="Doux" parent="." instance=ExtResource("1_f483p")]
-position = Vector2(34, 6)
+position = Vector2(37, -31)
 
 [node name="Tutorial" parent="." instance=ExtResource("2_0w501")]
 
