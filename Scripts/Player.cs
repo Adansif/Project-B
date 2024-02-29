@@ -6,8 +6,9 @@ public partial class Player : CharacterBody2D
 	public const float normalSpeed = 100.0f;
 	public const float jumpVelocity = -300.0f;
 	private const float crouchSpeed = 40.0f;
-	private String currentAnimation = "Idle";
-	private String fatherName;
+	private string currentAnimation = "Idle";
+	private string fatherName;
+	private string texturePath = "res://Sprites/Characters/";
 
 	private bool IsDead {get; set;} = false;
 	private bool IsWaypointActivated {get; set;} = false;
@@ -15,12 +16,13 @@ public partial class Player : CharacterBody2D
 	private bool isCrouching = false;
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-	Vector2 respawnCoords;
-	AnimationPlayer animation;
-	AudioStreamPlayer2D jump;
-	Sprite2D sprite;
-	Camera2D camera;
-	Node main;
+	private Vector2 respawnCoords;
+	private AnimationPlayer animation;
+	private AudioStreamPlayer2D jump;
+	private Sprite2D sprite;
+	private Camera2D camera;
+	private Node main;
+	private Texture texture;
 
     public override void _Ready()
     {
@@ -35,6 +37,25 @@ public partial class Player : CharacterBody2D
 		GD.Print(fatherName);
 		GD.Print(main.Name);
 
+		switch(GetParent().GetChildCount()){
+			case 5:
+				texture = GD.Load<Texture>(texturePath + "Doux.png");
+				break;
+			case 6:
+				texture = GD.Load<Texture>(texturePath + "Mort.png");
+				break;
+			case 7:
+				texture = GD.Load<Texture>(texturePath + "Tard.png");
+				break;
+			case 8:
+				texture = GD.Load<Texture>(texturePath + "Vita.png");
+				break;
+			default:
+				texture = GD.Load<Texture>(texturePath + "Doux.png");
+				break;
+		}
+
+		sprite.Texture = (Texture2D) texture;
     }
 
     public override void _EnterTree()

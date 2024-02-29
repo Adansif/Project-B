@@ -24,7 +24,7 @@ public partial class Multiplayer : Node2D
 	}
 
 	private void HostPressed(){
-		peer.CreateServer(135);
+		peer.CreateServer(135, 4);
 		Multiplayer.MultiplayerPeer = peer;
 		Multiplayer.PeerConnected += AddPlayer;
 		AddPlayer();
