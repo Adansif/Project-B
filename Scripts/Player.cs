@@ -37,59 +37,66 @@ public partial class Player : CharacterBody2D
 
     }
 
+    public override void _EnterTree()
+    {
+		SetMultiplayerAuthority(Int32.Parse(Name));
+    }
+
     public override async void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
+		if(IsMultiplayerAuthority()){
 
-		if (IsDead){
-			await ToSignal(animation, "animation_finished");
-			this.GlobalPosition = respawnCoords;
-			IsDead = false;
-		}
 
-		if(this.GlobalPosition.Y >= 30){
-			camera.LimitBottom = 150;
-		}
+			if (IsDead){
+				await ToSignal(animation, "animation_finished");
+				this.GlobalPosition = respawnCoords;
+				IsDead = false;
+			}
 
-		if(this.GlobalPosition.Y >= 237){
-			this.GlobalPosition = respawnCoords;
-		}
+			if(this.GlobalPosition.Y >= 30){
+				camera.LimitBottom = 150;
+			}
 
-		// Add the gravity.
-		if (!IsOnFloor()){
-			velocity.Y += gravity * (float)delta;
-		}
+			if(this.GlobalPosition.Y >= 237){
+				this.GlobalPosition = respawnCoords;
+			}
 
-		// Handle Jump.
-		if (Input.IsActionJustPressed("Jump") && IsOnFloor()){
-			velocity.Y = jumpVelocity;
-			jump.Play();
-		}
+			// Add the gravity.
+			if (!IsOnFloor()){
+				velocity.Y += gravity * (float)delta;
+			}
 
-		isCrouching = Input.IsActionPressed("Crouch");
+			// Handle Jump.
+			if (Input.IsActionJustPressed("Jump") && IsOnFloor()){
+				velocity.Y = jumpVelocity;
+				jump.Play();
+			}
 
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 direction = Input.GetVector("Left", "Right", "ui_up", "ui_down");
-		if (direction != Vector2.Zero)
-		{
-			velocity.X = isCrouching? direction.X * crouchSpeed : direction.X * normalSpeed;
-			if (Mathf.Abs(direction.X) > Mathf.Abs(direction.Y))
-            {
-                currentAnimation = isCrouching? "WalkCrouch" : "Walk";
-				if(direction.X < 0 ){
-					sprite.FlipH = true;
-				}else{
-					sprite.FlipH = false;
+			isCrouching = Input.IsActionPressed("Crouch");
+
+			// Get the input direction and handle the movement/deceleration.
+			// As good practice, you should replace UI actions with custom gameplay actions.
+			Vector2 direction = Input.GetVector("Left", "Right", "ui_up", "ui_down");
+			if (direction != Vector2.Zero)
+			{
+				velocity.X = isCrouching? direction.X * crouchSpeed : direction.X * normalSpeed;
+				if (Mathf.Abs(direction.X) > Mathf.Abs(direction.Y))
+				{
+					currentAnimation = isCrouching? "WalkCrouch" : "Walk";
+					if(direction.X < 0 ){
+						sprite.FlipH = true;
+					}else{
+						sprite.FlipH = false;
+					}
 				}
-            }
+			}
+			else
+			{
+				velocity.X = Mathf.MoveToward(Velocity.X, 0, normalSpeed);
+				currentAnimation = isCrouching? "IdleCrouch" : "Idle";
+			}
 		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, normalSpeed);
-			currentAnimation = isCrouching? "IdleCrouch" : "Idle";
-		}
-
 		Velocity = velocity;
 		MoveAndSlide();
 		animation.Play(currentAnimation);

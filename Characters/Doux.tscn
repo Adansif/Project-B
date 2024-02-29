@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bootae2iltwc5"]
+[gd_scene load_steps=13 format=3 uid="uid://bootae2iltwc5"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_47k5n"]
 [ext_resource type="Texture2D" uid="uid://brg2aprfhq5yr" path="res://Sprites/Characters/Doux.png" id="1_hp1pt"]
@@ -119,6 +119,20 @@ _data = {
 "WalkCrouch": SubResource("Animation_4pw58")
 }
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qv0si"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath("CharacterSprite:frame")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath("CharacterSprite:flip_h")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+
 [node name="Doux" type="CharacterBody2D"]
 script = ExtResource("1_47k5n")
 
@@ -149,5 +163,8 @@ collision_mask = 2
 [node name="AreaCollision" type="CollisionShape2D" parent="PlayerArea"]
 position = Vector2(-0.5, 0.5)
 shape = SubResource("RectangleShape2D_112ta")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_qv0si")
 
 [connection signal="body_entered" from="PlayerArea" to="." method="_on_player_area_body_entered"]

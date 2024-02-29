@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://ch8s1rowfgua2"]
+
+[ext_resource type="Script" path="res://Scripts/Menu.cs" id="1_hvjsk"]
+
+[node name="Menu" type="Node2D"]
+script = ExtResource("1_hvjsk")
+
+[node name="Singleplayer" type="Button" parent="."]
+offset_left = 32.0
+offset_top = 111.0
+offset_right = 135.0
+offset_bottom = 142.0
+text = "Singleplayer"
+
+[node name="Multiplayer" type="Button" parent="."]
+offset_left = 118.0
+offset_top = 177.0
+offset_right = 221.0
+offset_bottom = 208.0
+text = "Multiplayer"
+
+[node name="Options" type="Button" parent="."]
+offset_left = 205.0
+offset_top = 42.0
+offset_right = 275.0
+offset_bottom = 73.0
+text = "Options
+"
+
+[node name="Exit" type="Button" parent="."]
+offset_left = 320.0
+offset_top = 133.0
+offset_right = 357.0
+offset_bottom = 164.0
+text = "Exit"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(229, 129)
+zoom = Vector2(2.5, 2.5)
