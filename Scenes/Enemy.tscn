@@ -61,7 +61,7 @@ libraries = {
 position = Vector2(0.5, -0.5)
 shape = SubResource("RectangleShape2D_htqwu")
 
-[node name="EnemyArea" type="Area2D" parent="." groups=["enemy"]]
+[node name="EnemyArea" type="Area2D" parent="."]
 
 [node name="EnemyAreaCollision" type="CollisionShape2D" parent="EnemyArea"]
 position = Vector2(0.5, -0.5)
