@@ -44,7 +44,10 @@ public partial class Multiplayer : Node2D
     }
 
 	private void JoinPressed(){
-		peer.CreateClient("localhost", 5000);
+		peer.CreateClient("172.16.102.109", 50000);
 		Multiplayer.MultiplayerPeer = peer;
+		host.Hide();
+		join.Hide();
+		tilemap.Show();
 	}
 }
