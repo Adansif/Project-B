@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://wuxc2bavhl24"]
 
-[ext_resource type="PackedScene" uid="uid://b0hekj2dy1kl1" path="res://Scenes/Levels/Tutorial.tscn" id="2_0w501"]
+[ext_resource type="PackedScene" uid="uid://ch8s1rowfgua2" path="res://Scenes/Menu.tscn" id="2_nbe7g"]
 [ext_resource type="PackedScene" uid="uid://btwlde6swsve3" path="res://Scenes/Background.tscn" id="3_6cekb"]
 
 [node name="Main" type="Node2D"]
 
 [node name="Background" parent="." instance=ExtResource("3_6cekb")]
 
-[node name="Tutorial" parent="." instance=ExtResource("2_0w501")]
+[node name="Menu" parent="." instance=ExtResource("2_nbe7g")]
