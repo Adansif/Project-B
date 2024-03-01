@@ -17,13 +17,14 @@ public partial class MultiplayerFruits : Node
 	public override void _Process(double delta)
 	{
 		foreach(Vector2 position in FruitPositions.GetPositionsArray()){
-			if (!FruitPositions.GetUsedPositions().Contains(position) && random.Next(1, 1001) == 25){
-				fruit = (Fruit)GD.Load<PackedScene>("res://Scenes/Fruit.tscn").Instantiate();
-				fruit.textureId = fruitType;
-				fruit.position = position;
-				FruitPositions.AddUsePositions(position);
-				this.AddChild(fruit);
-				
+			if(this.GetChildCount() <= 10){
+				if (!FruitPositions.GetUsedPositions().Contains(position) && random.Next(1, 1001) == 500){
+					fruit = (Fruit)GD.Load<PackedScene>("res://Scenes/Fruit.tscn").Instantiate();
+					fruit.textureId = fruitType;
+					fruit.position = position;
+					FruitPositions.AddUsePositions(position);
+					this.AddChild(fruit);
+				}
 			}
 		}
 	}

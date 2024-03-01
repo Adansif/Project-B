@@ -1,7 +1,5 @@
 using Godot;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 public partial class Fruit : StaticBody2D
 {
@@ -37,7 +35,6 @@ public partial class Fruit : StaticBody2D
 				texture = GD.Load<Texture>(fruitPath + "Apple.png");
 				break;
 		}
-
 		sprite.Texture = (Texture2D)texture;
 	}
 
@@ -66,10 +63,13 @@ public partial class Fruit : StaticBody2D
 
 	private void FloatingFruit(){
 		Tween tween = CreateTween();
-
 		tween.SetLoops();
 		tween.SetTrans(Tween.TransitionType.Sine);
 		tween.TweenProperty(sprite, "position", new Vector2(0, -4), 1f);
 		tween.TweenProperty(sprite, "position", -1 * new Vector2(0, 4), 1f);	
+	}
+
+	private void _on_timer_timeout(){
+		GetParent().RemoveChild(this);
 	}
 }

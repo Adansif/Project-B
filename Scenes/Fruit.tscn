@@ -69,4 +69,9 @@ libraries = {
 "": SubResource("AnimationLibrary_ihoxy")
 }
 
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
 [connection signal="body_entered" from="FruitArea" to="." method="_on_fruit_area_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
