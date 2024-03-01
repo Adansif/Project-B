@@ -6,6 +6,9 @@ public partial class Player : CharacterBody2D
 	public const float normalSpeed = 100.0f;
 	public const float jumpVelocity = -300.0f;
 	private const float crouchSpeed = 40.0f;
+	[Export]
+	public int TextureId;
+	public int fruitCount;
 	private string currentAnimation = "Idle";
 	private string fatherName;
 	private string texturePath = "res://Sprites/Characters/";
@@ -40,19 +43,31 @@ public partial class Player : CharacterBody2D
 		switch(GetParent().GetChildCount()){
 			case 6:
 				texture = GD.Load<Texture>(texturePath + "Doux.png");
+				TextureId = 1;
 				break;
 			case 7:
 				texture = GD.Load<Texture>(texturePath + "Mort.png");
+				TextureId = 2;
 				break;
 			case 8:
 				texture = GD.Load<Texture>(texturePath + "Tard.png");
+				TextureId = 3;
 				break;
 			case 9:
 				texture = GD.Load<Texture>(texturePath + "Vita.png");
+				TextureId = 4;
 				break;
 			default:
 				texture = GD.Load<Texture>(texturePath + "Doux.png");
+				TextureId = 1;
 				break;
+		}
+
+		if(GetParent().Name == "Multiplayer"){
+			MultiplayerFruits multiplayerFruits = (MultiplayerFruits)GD.Load<PackedScene>("res://Scenes/MultiplayerFruits.tscn").Instantiate();
+			multiplayerFruits.fruitType = this.TextureId;
+			GD.Print(multiplayerFruits.fruitType);
+			this.AddChild(multiplayerFruits);
 		}
 
 		sprite.Texture = (Texture2D) texture;
