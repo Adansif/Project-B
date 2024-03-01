@@ -38,16 +38,16 @@ public partial class Player : CharacterBody2D
 		GD.Print(main.Name);
 
 		switch(GetParent().GetChildCount()){
-			case 5:
+			case 6:
 				texture = GD.Load<Texture>(texturePath + "Doux.png");
 				break;
-			case 6:
+			case 7:
 				texture = GD.Load<Texture>(texturePath + "Mort.png");
 				break;
-			case 7:
+			case 8:
 				texture = GD.Load<Texture>(texturePath + "Tard.png");
 				break;
-			case 8:
+			case 9:
 				texture = GD.Load<Texture>(texturePath + "Vita.png");
 				break;
 			default:

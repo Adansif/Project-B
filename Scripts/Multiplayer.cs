@@ -7,11 +7,14 @@ public partial class Multiplayer : Node2D
 	[Export]
 	PackedScene playerPackedScene;
 	Button host, join;
+	TileMap tilemap;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		host = GetNode<Button>("./Host");
 		join = GetNode<Button>("./Join");
+
+		tilemap = GetNode<TileMap>("./TileMap");
 
 		host.Pressed += HostPressed;
 		join.Pressed += JoinPressed;
@@ -24,7 +27,7 @@ public partial class Multiplayer : Node2D
 	}
 
 	private void HostPressed(){
-		peer.CreateServer(135, 4);
+		peer.CreateServer(50000, 4);
 		Multiplayer.MultiplayerPeer = peer;
 		Multiplayer.PeerConnected += AddPlayer;
 		AddPlayer();
@@ -37,12 +40,11 @@ public partial class Multiplayer : Node2D
 		CallDeferred("add_child", player);
 		host.Hide();
 		join.Hide();
+		tilemap.Show();
     }
 
 	private void JoinPressed(){
-		peer.CreateClient("localhost", 135);
+		peer.CreateClient("localhost", 5000);
 		Multiplayer.MultiplayerPeer = peer;
-		host.Hide();
-		join.Hide();
 	}
 }
