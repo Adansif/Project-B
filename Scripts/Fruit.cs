@@ -41,7 +41,9 @@ public partial class Fruit : StaticBody2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		
 		FloatingFruit();
+		
 	}
 
 	public void _on_fruit_area_body_entered(Node body){
@@ -57,7 +59,7 @@ public partial class Fruit : StaticBody2D
 		animation.Play("Hit");
 		await ToSignal(animation, "animation_finished");
 		playerScript.fruitCount++;
-		FruitPositions.inUsePositions.Remove(this.GlobalPosition);
+		FruitPositions.GetUsedPositions().Remove(this.GlobalPosition);
 		GetParent().RemoveChild(this);
 	}
 
@@ -70,6 +72,7 @@ public partial class Fruit : StaticBody2D
 	}
 
 	private void _on_timer_timeout(){
+		FruitPositions.GetUsedPositions().Remove(this.GlobalPosition);
 		GetParent().RemoveChild(this);
 	}
 }

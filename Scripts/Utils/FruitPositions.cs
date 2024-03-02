@@ -5,12 +5,12 @@ using System.Collections;
 public partial class FruitPositions: Node
 {
     private static object syncLock = new object();
-    public static Vector2[] positionsArray = { new Vector2(-111, 11), new Vector2(-110, 75), new Vector2(-190, 75),
+    private static Vector2[] positionsArray = { new Vector2(-111, 11), new Vector2(-110, 75), new Vector2(-190, 75),
                                     new Vector2(113, 75), new Vector2(112, 11), new Vector2(209, 75),
                                     new Vector2(0, -36), new Vector2(71, -52), new Vector2(-73, 52),
                                     new Vector2(-141, -35), new Vector2(136, -35), new Vector2(209, -84), new Vector2(-206, -84)};
 
-    public static ArrayList inUsePositions = new ArrayList();
+    private static ArrayList inUsePositions = new ArrayList();
 
     public static Vector2[] GetPositionsArray(){
         lock(syncLock){

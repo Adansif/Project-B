@@ -1,11 +1,11 @@
 [gd_scene load_steps=6 format=3 uid="uid://ldslnq1q751o"]
 
-[ext_resource type="Script" path="res://Scripts/Multiplayer.cs" id="1_lmfiv"]
-[ext_resource type="PackedScene" uid="uid://bootae2iltwc5" path="res://Characters/Doux.tscn" id="2_wicdu"]
-[ext_resource type="Texture2D" uid="uid://bc1ndvc74j3qe" path="res://Sprites/Terrain (16x16).png" id="3_dg3ec"]
+[ext_resource type="Script" path="res://Scripts/Multiplayer.cs" id="1_eux31"]
+[ext_resource type="PackedScene" uid="uid://bootae2iltwc5" path="res://Characters/Doux.tscn" id="2_n2fxp"]
+[ext_resource type="Texture2D" uid="uid://bc1ndvc74j3qe" path="res://Sprites/Terrain (16x16).png" id="3_g6gml"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dh5x5"]
-texture = ExtResource("3_dg3ec")
+texture = ExtResource("3_g6gml")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -446,8 +446,8 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_dh5x5")
 
 [node name="Multiplayer" type="Node2D"]
-script = ExtResource("1_lmfiv")
-playerPackedScene = ExtResource("2_wicdu")
+script = ExtResource("1_eux31")
+playerPackedScene = ExtResource("2_n2fxp")
 
 [node name="Host" type="Button" parent="."]
 offset_left = -217.0

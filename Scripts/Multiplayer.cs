@@ -4,6 +4,7 @@ using System;
 public partial class Multiplayer : Node2D
 {
 	ENetMultiplayerPeer peer = new();
+	MultiplayerFruits multiplayerFruits;
 	[Export]
 	PackedScene playerPackedScene;
 	Button host, join;
@@ -19,6 +20,8 @@ public partial class Multiplayer : Node2D
 		host.Pressed += HostPressed;
 		join.Pressed += JoinPressed;
 
+		multiplayerFruits = (MultiplayerFruits)GD.Load<PackedScene>("res://Scenes/Multiplayer/MultiplayerFruits.tscn").Instantiate();
+
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,6 +31,7 @@ public partial class Multiplayer : Node2D
 
 	private void HostPressed(){
 		peer.CreateServer(50000, 4);
+		CallDeferred("add_child", multiplayerFruits);
 		Multiplayer.MultiplayerPeer = peer;
 		Multiplayer.PeerConnected += AddPlayer;
 		AddPlayer();
@@ -44,7 +48,8 @@ public partial class Multiplayer : Node2D
     }
 
 	private void JoinPressed(){
-		peer.CreateClient("localhost", 50000);
+		peer.CreateClient("192.168.1.87", 50000);
+		CallDeferred("add_child", multiplayerFruits);
 		Multiplayer.MultiplayerPeer = peer;
 		host.Hide();
 		join.Hide();
