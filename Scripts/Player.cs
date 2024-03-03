@@ -16,7 +16,6 @@ public partial class Player : CharacterBody2D
 
 	private bool IsDead {get; set;} = false;
 	private bool IsWaypointActivated {get; set;} = false;
-	private bool isChangingScreen = false;
 	private bool isCrouching = false;
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
@@ -183,21 +182,19 @@ public partial class Player : CharacterBody2D
 			GD.Print(respawnCoords);
 			return;
 		}
-
-		if(isChangingScreen == false){
-			main.AddChild(GD.Load<PackedScene>("res://Scenes/FadingAnimation.tscn").Instantiate());
-			isChangingScreen = true;
+		if ((body is Enemy)){
+			die();
+			return;
 		}
+
 		
-		if (!(body is Enemy)) return;
-
-		die();
-
+		main.AddChild(GD.Load<PackedScene>("res://Scenes/FadingAnimation.tscn").Instantiate());
+		GD.Print("He chocado");
+		
 	}
 
 	private void die(){
 		IsDead = true;
 		animation.Play("Hit");
-
 	}
 }

@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://bv4wqslpl4cyq"]
+
+[ext_resource type="Script" path="res://Scripts/Thanks.cs" id="1_81s12"]
+
+[node name="Thanks" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_81s12")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -67.0
+offset_top = -76.0
+offset_right = 64.0
+offset_bottom = -24.0
+text = "Thanks you for
+playing my game."
+
+[node name="ButtonContainer" type="HBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Menu" type="Button" parent="ButtonContainer"]
+layout_mode = 2
+text = " Menu "
+
+[node name="Exit" type="Button" parent="ButtonContainer"]
+layout_mode = 2
+text = "  Exit  "
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.5, 2.5)

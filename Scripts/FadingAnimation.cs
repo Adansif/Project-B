@@ -48,27 +48,21 @@ public partial class FadingAnimation : CanvasLayer
 				lvl = GD.Load<PackedScene>("res://Scenes/Levels/Lvl1.tscn").Instantiate();
 				lvl.Name = "Lvl1";
 				main.AddChild(lvl);
+				main.RemoveChild(this);
 				break;
 			case "Lvl1":
 				lvl = GD.Load<PackedScene>("res://Scenes/Levels/Lvl2.tscn").Instantiate();
 				lvl.Name = "Lvl2";
 				main.AddChild(lvl);
+				main.RemoveChild(this);
 				break;
 			case "Lvl2":
-				lvl = GD.Load<PackedScene>("res://Scenes/Levels/Lvl2.tscn").Instantiate();
-				lvl.Name = "Lvl3";
-				main.AddChild(lvl);
-				break;
-			case "Lvl3":
-				lvl = GD.Load<PackedScene>("res://Scenes/Levels/Lvl2.tscn").Instantiate();
-				lvl.Name = "Lvl4";
-				main.AddChild(lvl);
-				break;
-			case "Lvl4":
-				lvl = GD.Load<PackedScene>("res://Scenes/Levels/Lvl2.tscn").Instantiate();
+				lvl = GD.Load<PackedScene>("res://Scenes/Thanks.tscn").Instantiate();
 				lvl.Name = "Lvl5";
 				main.AddChild(lvl);
+				main.RemoveChild(this);
 				break;
+			
 		}
 	}
 }

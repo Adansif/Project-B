@@ -9,6 +9,7 @@ public partial class Fruit : StaticBody2D
 	private AnimationPlayer animation;
 	public Vector2 position;
 	private Player playerScript;
+	private Timer timer;
 	public int textureId = 1;
 	private string fruitPath = "res://Sprites/Fruits/";
 	// Called when the node enters the scene tree for the first time.
@@ -16,6 +17,7 @@ public partial class Fruit : StaticBody2D
 	{
 		sprite = GetNode<Sprite2D>("./Sprite");
 		animation = GetNode<AnimationPlayer>("./Animation");
+		timer = GetNode<Timer>("./Timer");
 		this.GlobalPosition = position;
 
 		switch(textureId){
@@ -35,15 +37,17 @@ public partial class Fruit : StaticBody2D
 				texture = GD.Load<Texture>(fruitPath + "Apple.png");
 				break;
 		}
-		sprite.Texture = (Texture2D)texture;
+		if(GetParent().Name == "MultiplayerFruits"){
+			sprite.Texture = (Texture2D)texture;
+			timer.Start();
+		}else{
+			sprite.Texture = (Texture2D) GD.Load<Texture>("res://Sprites/Fruits/Apple.png");
+		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
-		FloatingFruit();
-		
 	}
 
 	public void _on_fruit_area_body_entered(Node body){
@@ -61,14 +65,6 @@ public partial class Fruit : StaticBody2D
 		playerScript.fruitCount++;
 		FruitPositions.GetUsedPositions().Remove(this.GlobalPosition);
 		GetParent().RemoveChild(this);
-	}
-
-	private void FloatingFruit(){
-		Tween tween = CreateTween();
-		tween.SetLoops();
-		tween.SetTrans(Tween.TransitionType.Sine);
-		tween.TweenProperty(sprite, "position", new Vector2(0, -4), 1f);
-		tween.TweenProperty(sprite, "position", -1 * new Vector2(0, 4), 1f);	
 	}
 
 	private void _on_timer_timeout(){
