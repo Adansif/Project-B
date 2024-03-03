@@ -43,6 +43,7 @@ public partial class Player : CharacterBody2D
 		GD.Print(fatherName);
 		GD.Print(main.Name);
 
+
 		switch(GetParent().GetChildCount()){
 			case 7:
 				texture = GD.Load<Texture>(characterTexturePath + "Doux.png");
@@ -76,11 +77,12 @@ public partial class Player : CharacterBody2D
 				break;
 		}
 
+		pointsScript = (Points)GD.Load<PackedScene>("res://Scenes/Points.tscn").Instantiate();
+		pointsScript.headTexture = this.headTexture;
+		pointsScript.fruitTexture = this.fruitTexture;
+
 		if(fatherName == "Multiplayer"){
 			multiplayerCamera = GetParent().GetNode<Camera2D>("./Camera2D");
-			pointsScript = (Points)GD.Load<PackedScene>("res://Scenes/Points.tscn").Instantiate();
-			pointsScript.headTexture = this.headTexture;
-			pointsScript.fruitTexture = this.fruitTexture;
 			
 			switch(multiplayerCamera.GetChildCount()){
 				case 0:
@@ -99,6 +101,8 @@ public partial class Player : CharacterBody2D
 					multiplayerCamera.AddChild(pointsScript);
 					break;
 			}
+		}else{
+			this.AddChild(pointsScript);
 		}
 
 		sprite.Texture = (Texture2D) texture;
@@ -177,6 +181,7 @@ public partial class Player : CharacterBody2D
 			StaticBody2D waypoint = (StaticBody2D)body;
 			respawnCoords = waypoint.GlobalPosition;
 			GD.Print(respawnCoords);
+			return;
 		}
 
 		if(isChangingScreen == false){
