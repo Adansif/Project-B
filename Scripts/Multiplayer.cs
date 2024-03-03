@@ -48,7 +48,7 @@ public partial class Multiplayer : Node2D
     }
 
 	private void JoinPressed(){
-		peer.CreateClient("192.168.1.87", 50000);
+		peer.CreateClient("localhost", 50000);
 		CallDeferred("add_child", multiplayerFruits);
 		Multiplayer.MultiplayerPeer = peer;
 		host.Hide();

@@ -18,6 +18,7 @@ public partial class Menu : Node2D
 		exit.Pressed += Exit;
 		singleplayer.Pressed += LoadSingleplayer;
 		multiplayer.Pressed += LoadMultiplayer;
+		options.Pressed += LoadOptions;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -40,5 +41,10 @@ public partial class Menu : Node2D
 		Node singleplayer = GD.Load<PackedScene>("res://Scenes/Multiplayer/Multiplayer.tscn").Instantiate();
 		main.AddChild(singleplayer);
 		main.RemoveChild(this);
+	}
+
+	private void LoadOptions(){
+		GetParent().AddChild(GD.Load<PackedScene>("res://Scenes/OptionsScene.tscn").Instantiate());
+		GetParent().RemoveChild(this);
 	}
 }

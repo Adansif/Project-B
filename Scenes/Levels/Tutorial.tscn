@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://b0hekj2dy1kl1"]
+[gd_scene load_steps=9 format=3 uid="uid://b0hekj2dy1kl1"]
 
 [ext_resource type="Texture2D" uid="uid://bc1ndvc74j3qe" path="res://Sprites/Terrain (16x16).png" id="1_q8q3w"]
 [ext_resource type="Texture2D" uid="uid://pb2wu1et6t8a" path="res://Sprites/Misc/Arrow.png" id="2_62eio"]
 [ext_resource type="PackedScene" uid="uid://c2n14unjuy07o" path="res://Scenes/Waypoint.tscn" id="3_kyutu"]
 [ext_resource type="PackedScene" uid="uid://bootae2iltwc5" path="res://Characters/Doux.tscn" id="3_vv2em"]
+[ext_resource type="PackedScene" uid="uid://bmjye38yf8njr" path="res://Scenes/Fruit.tscn" id="5_tto0f"]
+[ext_resource type="PackedScene" uid="uid://dvrl2mh5wbgtv" path="res://Scenes/Signal.tscn" id="6_p1rg6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wtmpn"]
 texture = ExtResource("1_q8q3w")
@@ -459,9 +461,6 @@ texture = ExtResource("1_q8q3w")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_wtmpn")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fxcpt"]
-size = Vector2(45.75, 100)
-
 [node name="Tutorial" type="TileMap"]
 tile_set = SubResource("TileSet_g6hlw")
 format = 2
@@ -482,7 +481,7 @@ scale = Vector2(0.35374, 0.246297)
 texture = ExtResource("2_62eio")
 
 [node name="Doux" parent="." instance=ExtResource("3_vv2em")]
-position = Vector2(58, -58)
+position = Vector2(61, -30)
 
 [node name="Texts" type="Node" parent="."]
 
@@ -557,14 +556,58 @@ theme_override_colors/default_color = Color(0.992157, 0.941176, 0.588235, 1)
 theme_override_font_sizes/normal_font_size = 20
 text = "A ver si sobrevives a esto..."
 
+[node name="DirstLevel" type="RichTextLabel" parent="Texts"]
+offset_left = 2201.0
+offset_top = -168.0
+offset_right = 2413.0
+offset_bottom = -84.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/default_color = Color(0.992157, 0.941176, 0.588235, 1)
+theme_override_font_sizes/normal_font_size = 20
+text = "Avanza hasta el borde para pasar al primer nivel"
+
 [node name="Waypoints" type="Node" parent="."]
 
 [node name="Waypoint" parent="Waypoints" instance=ExtResource("3_kyutu")]
 position = Vector2(1091, -31)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(2358, -145)
-collision_layer = 2
+[node name="Fruits" type="Node" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-shape = SubResource("RectangleShape2D_fxcpt")
+[node name="Fruit" parent="Fruits" instance=ExtResource("5_tto0f")]
+position = Vector2(872, 21)
+
+[node name="Fruit2" parent="Fruits" instance=ExtResource("5_tto0f")]
+position = Vector2(986, -12)
+
+[node name="Fruit3" parent="Fruits" instance=ExtResource("5_tto0f")]
+position = Vector2(1138, -12)
+
+[node name="Fruit4" parent="Fruits" instance=ExtResource("5_tto0f")]
+position = Vector2(1242, -27)
+
+[node name="Fruit5" parent="Fruits" instance=ExtResource("5_tto0f")]
+position = Vector2(1335, -59)
+
+[node name="Fruit6" parent="Fruits" instance=ExtResource("5_tto0f")]
+position = Vector2(1518, -28)
+
+[node name="Fruit7" parent="Fruits" instance=ExtResource("5_tto0f")]
+position = Vector2(1680, -92)
+
+[node name="Fruit8" parent="Fruits" instance=ExtResource("5_tto0f")]
+position = Vector2(1792, -28)
+
+[node name="Fruit9" parent="Fruits" instance=ExtResource("5_tto0f")]
+position = Vector2(1936, -27)
+
+[node name="Fruit10" parent="Fruits" instance=ExtResource("5_tto0f")]
+position = Vector2(1919, -137)
+
+[node name="Fruit11" parent="Fruits" instance=ExtResource("5_tto0f")]
+position = Vector2(2128, 53)
+
+[node name="Fruit12" parent="Fruits" instance=ExtResource("5_tto0f")]
+position = Vector2(2096, -44)
+
+[node name="Signal" parent="." instance=ExtResource("6_p1rg6")]
+position = Vector2(2289, -111)
