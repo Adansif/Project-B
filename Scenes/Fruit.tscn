@@ -1,0 +1,77 @@
+[gd_scene load_steps=7 format=3 uid="uid://bmjye38yf8njr"]
+
+[ext_resource type="Script" path="res://Scripts/Fruit.cs" id="1_iv0so"]
+[ext_resource type="Texture2D" uid="uid://cr2mgwex5dpc7" path="res://Sprites/Fruits/Apple.png" id="1_lut7a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mi7cn"]
+size = Vector2(12, 14)
+
+[sub_resource type="Animation" id="Animation_uey5g"]
+resource_name = "Hit"
+length = 0.9
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0]
+}
+
+[sub_resource type="Animation" id="Animation_imykp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ihoxy"]
+_data = {
+"Hit": SubResource("Animation_uey5g"),
+"RESET": SubResource("Animation_imykp")
+}
+
+[node name="Fruit" type="StaticBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_iv0so")
+
+[node name="FruitAreaCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_mi7cn")
+
+[node name="FruitArea" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="FruitAreaCollision" type="CollisionShape2D" parent="FruitArea"]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_mi7cn")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_lut7a")
+hframes = 17
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ihoxy")
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="body_entered" from="FruitArea" to="." method="_on_fruit_area_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

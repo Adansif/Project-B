@@ -37,7 +37,7 @@ public partial class Menu : Node2D
 	}
 
 	private void LoadMultiplayer(){
-		Node singleplayer = GD.Load<PackedScene>("res://Scenes/Multiplayer.tscn").Instantiate();
+		Node singleplayer = GD.Load<PackedScene>("res://Scenes/Multiplayer/Multiplayer.tscn").Instantiate();
 		main.AddChild(singleplayer);
 		main.RemoveChild(this);
 	}

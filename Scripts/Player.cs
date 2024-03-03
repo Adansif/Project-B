@@ -6,9 +6,13 @@ public partial class Player : CharacterBody2D
 	public const float normalSpeed = 100.0f;
 	public const float jumpVelocity = -300.0f;
 	private const float crouchSpeed = 40.0f;
+	[Export]
+	public int TextureId;
+	public int fruitCount;
 	private string currentAnimation = "Idle";
 	private string fatherName;
-	private string texturePath = "res://Sprites/Characters/";
+	private string characterTexturePath = "res://Sprites/Characters/";
+	private string fruitTexturePath = "res://Sprites/Fruits/";
 
 	private bool IsDead {get; set;} = false;
 	private bool IsWaypointActivated {get; set;} = false;
@@ -20,42 +24,89 @@ public partial class Player : CharacterBody2D
 	private AnimationPlayer animation;
 	private AudioStreamPlayer2D jump;
 	private Sprite2D sprite;
-	private Camera2D camera;
+	private Camera2D playerCamera, multiplayerCamera;
 	private Node main;
-	private Texture texture;
+	private Texture texture, headTexture, fruitTexture;
+	private Label pointLabel;
+	private Points pointsScript;
 
     public override void _Ready()
     {
 		jump = GetNode<AudioStreamPlayer2D>("./Jump");
 		animation = GetNode<AnimationPlayer>("./CharacterAnimation");
 		sprite = GetNode<Sprite2D>("./CharacterSprite");
-		camera = GetNode<Camera2D>("./Camera2D");
-		camera.PositionSmoothingEnabled = true;
+		playerCamera = GetNode<Camera2D>("./Camera2D");
+		playerCamera.PositionSmoothingEnabled = true;
 		respawnCoords = this.GlobalPosition;
 		fatherName = GetParent().Name;
 		main = GetParent().GetParent();
 		GD.Print(fatherName);
 		GD.Print(main.Name);
 
+
 		switch(GetParent().GetChildCount()){
-			case 6:
-				texture = GD.Load<Texture>(texturePath + "Doux.png");
-				break;
 			case 7:
-				texture = GD.Load<Texture>(texturePath + "Mort.png");
+				texture = GD.Load<Texture>(characterTexturePath + "Doux.png");
+				headTexture = GD.Load<Texture>(characterTexturePath + "DouxHead.png");
+				fruitTexture = GD.Load<Texture>(fruitTexturePath + "Apple.png");
+				TextureId = 1;
 				break;
 			case 8:
-				texture = GD.Load<Texture>(texturePath + "Tard.png");
+				texture = GD.Load<Texture>(characterTexturePath + "Mort.png");
+				headTexture = GD.Load<Texture>(characterTexturePath + "MortHead.png");
+				fruitTexture = GD.Load<Texture>(fruitTexturePath + "Cherries.png");
+				TextureId = 2;
 				break;
 			case 9:
-				texture = GD.Load<Texture>(texturePath + "Vita.png");
+				texture = GD.Load<Texture>(characterTexturePath + "Tard.png");
+				headTexture = GD.Load<Texture>(characterTexturePath + "TardHead.png");
+				fruitTexture = GD.Load<Texture>(fruitTexturePath + "Banana.png");
+				TextureId = 3;
+				break;
+			case 10:
+				texture = GD.Load<Texture>(characterTexturePath + "Vita.png");
+				headTexture = GD.Load<Texture>(characterTexturePath + "VitaHead.png");
+				fruitTexture = GD.Load<Texture>(fruitTexturePath + "Kiwi.png");
+				TextureId = 4;
 				break;
 			default:
-				texture = GD.Load<Texture>(texturePath + "Doux.png");
+				texture = GD.Load<Texture>(characterTexturePath + "Doux.png");
+				headTexture = GD.Load<Texture>(characterTexturePath + "DouxHead.png");
+				fruitTexture = GD.Load<Texture>(fruitTexturePath + "Apple.png");
+				TextureId = 1;
 				break;
 		}
 
+		pointsScript = (Points)GD.Load<PackedScene>("res://Scenes/Points.tscn").Instantiate();
+		pointsScript.headTexture = this.headTexture;
+		pointsScript.fruitTexture = this.fruitTexture;
+
+		if(fatherName == "Multiplayer"){
+			multiplayerCamera = GetParent().GetNode<Camera2D>("./Camera2D");
+			
+			switch(multiplayerCamera.GetChildCount()){
+				case 0:
+					multiplayerCamera.AddChild(pointsScript);
+					break;
+				case 1:
+					pointsScript.GlobalPosition = new Vector2(pointsScript.GlobalPosition.X + 100, pointsScript.GlobalPosition.Y);
+					multiplayerCamera.AddChild(pointsScript);
+					break;
+				case 2:
+					pointsScript.GlobalPosition = new Vector2(pointsScript.GlobalPosition.X + 200, pointsScript.GlobalPosition.Y);
+					multiplayerCamera.AddChild(pointsScript);
+					break;
+				case 3:
+					pointsScript.GlobalPosition = new Vector2(pointsScript.GlobalPosition.X + 300, pointsScript.GlobalPosition.Y);
+					multiplayerCamera.AddChild(pointsScript);
+					break;
+			}
+		}else{
+			this.AddChild(pointsScript);
+		}
+
 		sprite.Texture = (Texture2D) texture;
+		GD.Print(GetParent().GetChildren());
     }
 
     public override void _EnterTree()
@@ -76,7 +127,7 @@ public partial class Player : CharacterBody2D
 			}
 
 			if(this.GlobalPosition.Y >= 30){
-				camera.LimitBottom = 150;
+				playerCamera.LimitBottom = 150;
 			}
 
 			if(this.GlobalPosition.Y >= 237){
@@ -118,6 +169,7 @@ public partial class Player : CharacterBody2D
 				currentAnimation = isCrouching? "IdleCrouch" : "Idle";
 			}
 		}
+		pointsScript.points = fruitCount;
 		Velocity = velocity;
 		MoveAndSlide();
 		animation.Play(currentAnimation);
@@ -129,6 +181,7 @@ public partial class Player : CharacterBody2D
 			StaticBody2D waypoint = (StaticBody2D)body;
 			respawnCoords = waypoint.GlobalPosition;
 			GD.Print(respawnCoords);
+			return;
 		}
 
 		if(isChangingScreen == false){

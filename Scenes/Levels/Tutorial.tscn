@@ -482,7 +482,7 @@ scale = Vector2(0.35374, 0.246297)
 texture = ExtResource("2_62eio")
 
 [node name="Doux" parent="." instance=ExtResource("3_vv2em")]
-position = Vector2(2259, -165)
+position = Vector2(58, -58)
 
 [node name="Texts" type="Node" parent="."]
 
