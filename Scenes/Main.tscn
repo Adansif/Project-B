@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://wuxc2bavhl24"]
+
+[ext_resource type="PackedScene" uid="uid://ch8s1rowfgua2" path="res://Scenes/Menu.tscn" id="2_nbe7g"]
+[ext_resource type="PackedScene" uid="uid://btwlde6swsve3" path="res://Scenes/Background.tscn" id="3_6cekb"]
+[ext_resource type="AudioStream" uid="uid://do38tbkmvrp5y" path="res://Sounds/Main music.mp3" id="3_pffxa"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Background" parent="." instance=ExtResource("3_6cekb")]
+
+[node name="Menu" parent="." instance=ExtResource("2_nbe7g")]
+
+[node name="MainMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_pffxa")
+autoplay = true
+bus = &"Music"

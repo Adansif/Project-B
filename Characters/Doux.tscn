@@ -1,0 +1,170 @@
+[gd_scene load_steps=13 format=3 uid="uid://bootae2iltwc5"]
+
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_47k5n"]
+[ext_resource type="Texture2D" uid="uid://brg2aprfhq5yr" path="res://Sprites/Characters/Doux.png" id="1_hp1pt"]
+[ext_resource type="AudioStream" uid="uid://dis0l3nap2nmc" path="res://Sounds/Jump.wav" id="3_23eel"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_112ta"]
+size = Vector2(15, 17)
+
+[sub_resource type="Animation" id="Animation_s7335"]
+resource_name = "Hit"
+length = 0.75
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [14, 15, 16, 15, 16]
+}
+
+[sub_resource type="Animation" id="Animation_x2vf4"]
+resource_name = "Idle"
+length = 0.75
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_d210q"]
+resource_name = "IdleCrouch"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [17]
+}
+
+[sub_resource type="Animation" id="Animation_auncu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_jgjqq"]
+resource_name = "Walk"
+length = 0.9
+loop_mode = 1
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [4, 5, 6, 7, 8, 9]
+}
+
+[sub_resource type="Animation" id="Animation_4pw58"]
+resource_name = "WalkCrouch"
+length = 1.5
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [18, 19, 20, 21, 22, 23]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0n223"]
+_data = {
+"Hit": SubResource("Animation_s7335"),
+"Idle": SubResource("Animation_x2vf4"),
+"IdleCrouch": SubResource("Animation_d210q"),
+"RESET": SubResource("Animation_auncu"),
+"Walk": SubResource("Animation_jgjqq"),
+"WalkCrouch": SubResource("Animation_4pw58")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qv0si"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath("CharacterSprite:frame")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath("CharacterSprite:flip_h")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+
+[node name="Doux" type="CharacterBody2D"]
+script = ExtResource("1_47k5n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_112ta")
+
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_hp1pt")
+hframes = 24
+
+[node name="CharacterAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0n223")
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.5, 2.5)
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_23eel")
+bus = &"Effects"
+
+[node name="PlayerArea" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="AreaCollision" type="CollisionShape2D" parent="PlayerArea"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_112ta")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_qv0si")
+
+[connection signal="body_entered" from="PlayerArea" to="." method="_on_player_area_body_entered"]

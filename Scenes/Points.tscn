@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://lpeyuin6dkxm"]
+
+[ext_resource type="Script" path="res://Scripts/Points.cs" id="1_di54v"]
+[ext_resource type="Texture2D" uid="uid://2eas83hnf3p1" path="res://Sprites/Characters/DouxHead.png" id="1_jtb3r"]
+[ext_resource type="Texture2D" uid="uid://cr2mgwex5dpc7" path="res://Sprites/Fruits/Apple.png" id="2_h8xyl"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ap4gh"]
+properties/0/path = NodePath("PointLabel:text")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+
+[node name="Points" type="Node2D"]
+script = ExtResource("1_di54v")
+
+[node name="Head" type="Sprite2D" parent="."]
+position = Vector2(-205, -110)
+scale = Vector2(2, 2)
+texture = ExtResource("1_jtb3r")
+
+[node name="Fruit" type="Sprite2D" parent="."]
+position = Vector2(-165, -110)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_h8xyl")
+hframes = 17
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.5, 2.5)
+
+[node name="Misc" type="Label" parent="."]
+offset_left = -186.0
+offset_top = -122.0
+offset_right = -138.0
+offset_bottom = -96.0
+text = ":        X"
+
+[node name="PointLabel" type="Label" parent="."]
+offset_left = -135.0
+offset_top = -123.0
+offset_right = -95.0
+offset_bottom = -97.0
+text = "1"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ap4gh")
